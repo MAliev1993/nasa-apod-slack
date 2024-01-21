@@ -18,41 +18,23 @@ $nasaHttpClient = new Client([
 ]);
 
 $nasaRequestOptions = [];
-$nasaResponse = $nasaHttpClient->get($nasaUri, ['query' => 'api_key=' . $nasaApiKey]);
+$nasaResponse = $nasaHttpClient->get($nasaUri, [
+    'query' => 'api_key=' . $nasaApiKey,
+]);
 $body = $nasaResponse->getBody();
-var_dump($body);
+$contents = json_decode($body->getContents(), true);
+$date = $contents['date'];
+$title = $contents['title'];
+$explanation = $contents['explanation'];
+$hdUrl = $contents['hdurl'];
 
-/*
 $slackWebhookUri = 'https://hooks.slack.com/services/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';
 $slackHttpClient = new Client();
 
-$slackHttpClient->request(
-    POST,
-    $slackWebhookUri,
-    ['json' => ['text' => 'Take a look at the latest NASA picture of the day!']]
-);
-
-$slackHttpClient->request(
-    POST,
-    $slackWebhookUri,
-    ['json' => ['text' => 'Take a look at the latest NASA picture of the day!']]
-);
-*/
-
-// $client contains all the methods to interact with the API
-$slackServiceToken = 'xoxp-159477670640-612226523526-6436890174294-ee2cd3d15b4df8906be1179f01cfec09';
-$channelName = 'nasa-apod';
-$client = JoliCode\Slack\ClientFactory::create($slackServiceToken);
-$client->chatPostMessage([
-    'channel' => $channelName,
-    'text' => 'Hello, world!',
-    'blocks' => json_encode([
-        [
-            'type' => 'section',
-            'text' => [
-                'type' => 'mrkdwn',
-                'text' => ':tada: Blocks are working!',
-            ],
+$slackHttpClient->post(
+    $slackWebhookUri, [
+        'json' => [
+            'text' => "*$title*\n$explanation\n$hdUrl"
         ],
-    ]),
-]);
+    ]
+);
