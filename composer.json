@@ -1,13 +1,16 @@
 {
-  "version": "7.9",
-
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.5",
     "monolog/monolog": "^2.2",
     "symfony/http-client": "^7.0",
     "nyholm/psr7": "^1.8",
     "jolicode/slack-php-api": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }
