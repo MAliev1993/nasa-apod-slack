@@ -1,0 +1,8 @@
+{
+  "nasaApiKey": "",
+  "slackWebhooks": {
+    "prod": "",
+    "test": ""
+  }
+}
+

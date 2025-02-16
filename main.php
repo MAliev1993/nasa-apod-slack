@@ -7,7 +7,11 @@ use GuzzleHttp\Client as Client;
 const GET = 'GET';
 const POST = 'POST';
 
-$nasaApiKey = 'iM1tau6c6NlcqwczM7ng4PECq9CO9m2MDeBe3Sct';
+$testMode = $argv[1] === "test";
+
+$config = json_decode(file_get_contents('local.json'), true) ?? [];
+
+$nasaApiKey = $config['nasaApiKey'];
 $nasaUri = 'https://api.nasa.gov/planetary/apod';
 $nasaHeaders = [
     "Content-Type" => "application/json",
@@ -28,7 +32,7 @@ $title = $contents['title'];
 $explanation = $contents['explanation'];
 $hdUrl = $contents['hdurl'];
 
-$slackWebhookUri = 'https://hooks.slack.com/services/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';
+$slackWebhookUri = $config['slackWebhooks'][$testMode ? 'test' : 'prod'];
 $slackHttpClient = new Client();
 
 $slackHttpClient->post(
